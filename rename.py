@@ -23,9 +23,6 @@ import fnmatch
 import argparse
 from operator import itemgetter
 
-
-count = 0
-
 filedate = []
 
 def walk_directory(source_dir):
@@ -45,15 +42,21 @@ for i,f in enumerate(walk_directory(source_dir)):
     
     z = open(f, 'rb')
     
-    tags = exifread.process_file(z, details=False, stop_tag="Image DateTime")
+    tags = exifread.process_file(z, details=False)
     
     z.close()
     
-    filedate.append( ( f, str(tags["Image DateTime"] )) )
+    for tag in tags:
+        print tag
+    exit()
 
-for i in filedate[1:10]:
-    print i
-
+    try:
+        # This is theoretical, need to check if it works.
+        tags["GPS GPSVersionID"]
+        filedate.append( ( f, str(tags["Image DateTime"] )) )
+    except KeyError:
+        print "No GPS tags"
+        
 filedate = sorted(filedate, key=itemgetter(1), reverse=False)
 
 for i,f in enumerate(filedate):
@@ -61,8 +64,7 @@ for i,f in enumerate(filedate):
     print f[0], n
     
     try:
-        # os.link(f[0], n)
-        #print( n)
-        pass
+        os.link(f[0], n)
+        print( n)
     except:
         print "error: didn't rename"
