@@ -28,13 +28,20 @@ count = 0
 
 filedate = []
 
-def walk_directory():
-    for root, dirnames, filenames in os.walk('src'):
-        for filename in fnmatch.filter(filenames, '*.c'):
+def walk_directory(source_dir):
+    for root, dirnames, filenames in os.walk(source_dir):
+        for filename in fnmatch.filter(filenames, '*.jpg'):
             yield os.path.join(root, filename)
+            
+parser = argparse.ArgumentParser()
+parser.add_argument('src', help="source directory")
+args = parser.parse_args()
+
+
+source_dir = args.src
 
 # and rename each file
-for i,f in enumerate(files):
+for i,f in enumerate(walk_directory(source_dir)):
     
     z = open(f, 'rb')
     
@@ -43,15 +50,9 @@ for i,f in enumerate(files):
     z.close()
     
     filedate.append( ( f, str(tags["Image DateTime"] )) )
-        
-    # count = count + 1
-    # n = string.zfill(count,6) + ".jpg"
-    # print f, n,
-    # try:
-    #     # os.rename(f, n)
-    #     # print( n)
-    # except:
-    #     print "error: didn't rename"
+
+for i in filedate[1:10]:
+    print i
 
 filedate = sorted(filedate, key=itemgetter(1), reverse=False)
 
@@ -60,7 +61,8 @@ for i,f in enumerate(filedate):
     print f[0], n
     
     try:
-        os.link(f[0], n)
-        print( n)
+        # os.link(f[0], n)
+        #print( n)
+        pass
     except:
         print "error: didn't rename"
