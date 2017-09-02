@@ -32,10 +32,12 @@ def walk_directory(source_dir):
             
 parser = argparse.ArgumentParser()
 parser.add_argument('src', help="source directory")
+parser.add_argument('dest', help="destination directory")
 args = parser.parse_args()
 
 
 source_dir = args.src
+dest_dir = args.dest
 
 # and rename each file
 for i,f in enumerate(walk_directory(source_dir)):
@@ -45,10 +47,10 @@ for i,f in enumerate(walk_directory(source_dir)):
     tags = exifread.process_file(z, details=False)
     
     z.close()
-    
-    for tag in tags:
-        print tag
-    exit()
+
+    # for tag in tags:
+    #     print tag
+    # exit()
 
     try:
         # This is theoretical, need to check if it works.
@@ -60,11 +62,10 @@ for i,f in enumerate(walk_directory(source_dir)):
 filedate = sorted(filedate, key=itemgetter(1), reverse=False)
 
 for i,f in enumerate(filedate):
-    n = string.zfill(i+1,7) + ".jpg"
-    print f[0], n
+    name = string.zfill(i+1,7) + ".jpg"
+    print f[0] + "-->" + n
     
     try:
-        os.link(f[0], n)
-        print( n)
+        os.link(f[0], name)
     except:
-        print "error: didn't rename"
+        print "error: didn't link"
