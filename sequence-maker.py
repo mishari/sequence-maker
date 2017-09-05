@@ -1,19 +1,23 @@
 #!/usr/bin/python
 """
-Just a small script that renames all the JPEG files
-in a folder as 0000.jpg, 0001.jpg etc. Initial order
-is retained.
-vsbabu AT hotmail DOT com
+Script that takes a dump of jpeg images from a GPS enabled camera
+and outputs them as a long sequence starting with 0000001.jpg
 
-This is intended as a recipe script, though I use it
-way too often to arrange my digital files.
+Inspired http://vsbabu.org/webdev/pydev/rename_number.html
 
-Note that this has possible error conditions that
-are not handled at all:
-- what if the folder has files already numbered?
-- while renaming, it fails if the target file exists
+Copyright (C) 2017 Mishari Muqbil
 
-from http://vsbabu.org/webdev/pydev/rename_number.html
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
 """
 import string
@@ -63,7 +67,7 @@ filedate = sorted(filedate, key=itemgetter(1), reverse=False)
 
 for i,f in enumerate(filedate):
     name = string.zfill(i+1,7) + ".jpg"
-    print f[0] + "-->" + n
+    print f[0] + " --> " + name
     
     try:
         os.link(f[0], name)
