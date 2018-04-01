@@ -3,7 +3,7 @@
 Script that takes a dump of jpeg images from a GPS enabled camera
 and outputs them as a long sequence starting with 0000001.jpg
 
-Inspired http://vsbabu.org/webdev/pydev/rename_number.html
+Inspired by http://vsbabu.org/webdev/pydev/rename_number.html
 
 Copyright (C) 2017 Mishari Muqbil
 
@@ -66,7 +66,7 @@ for i,f in enumerate(walk_directory(source_dir)):
 filedate = sorted(filedate, key=itemgetter(1), reverse=False)
 
 for i,f in enumerate(filedate):
-    name = string.zfill(i+1,7) + ".jpg"
+    name = os.path.joins(dest_dir, string.zfill(i+1,7) + ".jpg")
     print f[0] + " --> " + name
     
     try:
